@@ -224,3 +224,23 @@ func GCFLoginTest(username, password, MONGOCONNSTRINGENV, dbname, collectionname
 	// Memeriksa apakah kata sandi cocok
 	return CheckPasswordHash(password, res.Password)
 }
+
+func InsertDataUserGCF(Mongoenv, dbname string, r *http.Request) string {
+	resp := new(Credential)
+	userdata := new(User)
+	resp.Status = false
+	conn := SetConnection(Mongoenv, dbname)
+	err := json.NewDecoder(r.Body).Decode(&userdata)
+	if err != nil {
+		resp.Message = "error parsing application/json: " + err.Error()
+	} else {
+		resp.Status = true
+		hash, err := HashPassword(userdata.Password)
+		if err != nil {
+			resp.Message = "Gagal Hash Password" + err.Error()
+		}
+		InsertUserdata(conn, userdata.Username, userdata.Role, hash)
+		resp.Message = "Berhasil Input data"
+	}
+	return GCFReturnStruct(resp)
+}

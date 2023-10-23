@@ -3,6 +3,9 @@ package peda
 import (
 	"os"
 
+	"context"
+	"fmt"
+
 	"github.com/aiteung/atdb"
 	"github.com/whatsauth/watoken"
 	"go.mongodb.org/mongo-driver/bson"
@@ -98,4 +101,19 @@ func IsPasswordValid(mongoconn *mongo.Database, collection string, userdata User
 
 func CreateNewProduct(mongoconn *mongo.Database, collection string, productdata Product) interface{} {
 	return atdb.InsertOneDoc(mongoconn, collection, productdata)
+}
+
+func InsertUserdata(MongoConn *mongo.Database, username, role, password string) (InsertedID interface{}) {
+	req := new(User)
+	req.Username = username
+	req.Password = password
+	req.Role = role
+	return InsertOneDoc(MongoConn, "user", req)
+}
+func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (insertedID interface{}) {
+	insertResult, err := db.Collection(collection).InsertOne(context.TODO(), doc)
+	if err != nil {
+		fmt.Printf("InsertOneDoc: %v\n", err)
+	}
+	return insertResult.InsertedID
 }
