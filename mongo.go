@@ -117,3 +117,14 @@ func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (inser
 	}
 	return insertResult.InsertedID
 }
+
+// gis function
+
+func PostLinestring(mongoconn *mongo.Database, collection string, linestringdata GeoJsonLineString) interface{} {
+	return atdb.InsertOneDoc(mongoconn, collection, linestringdata)
+}
+
+func GetByCoordinate(mongoconn *mongo.Database, collection string, linestringdata GeoJsonLineString) GeoJsonLineString {
+	filter := bson.M{"geometry.coordinates": linestringdata.Geometry.Coordinates}
+	return atdb.GetOneDoc[GeoJsonLineString](mongoconn, collection, filter)
+}
