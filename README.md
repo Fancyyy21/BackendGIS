@@ -15,15 +15,7 @@ go list -m https://github.com/Fancypedia/fancybackend@v0.0.1   #publish to pkg d
 [https://asia-southeast2-testlogin-366704.cloudfunctions.net/updated](https://asia-southeast2-testlogin-366704.cloudfunctions.net/getaaalll -get all
 ```
 
-```sh
-https://asia-southeast2-testlogin-366704.cloudfunctions.net/function-16 -admin khusus
-https://asia-southeast2-testlogin-366704.cloudfunctions.net/gislocation -gis tempat penjualan
-https://asia-southeast2-testlogin-366704.cloudfunctions.net/post -post ( ini payloadnya {
-   " Username": "pakrolly",
-		"Password": "ganteng",
-		"Role":     "admin"
-})
-```
+)
 
 ```sh
 https://us-central1-testlogin-366704.cloudfunctions.net/delete
