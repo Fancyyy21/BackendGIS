@@ -71,23 +71,3 @@ type Response struct {
 	Message string      `json:"message" bson:"message"`
 	Data    interface{} `json:"data" bson:"data"`
 }
-
-//GIS
-
-type GeoJsonPoint struct {
-	Type       string        `json:"type" bson:"type"`
-	Properties Properties    `json:"properties" bson:"properties"`
-	Geometry   GeometryPoint `json:"geometry" bson:"geometry"`
-}
-
-type GeoJsonLineString struct {
-	Type       string             `json:"type" bson:"type"`
-	Properties Properties         `json:"properties" bson:"properties"`
-	Geometry   GeometryLineString `json:"geometry" bson:"geometry"`
-}
-
-type GeoJsonPolygon struct {
-	Type       string          `json:"type" bson:"type"`
-	Properties Properties      `json:"properties" bson:"properties"`
-	Geometry   GeometryPolygon `json:"geometry" bson:"geometry"`
-}
