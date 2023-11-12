@@ -277,6 +277,12 @@ func GCFCreatePostLineString(MONGOCONNSTRINGENV, dbname, collection string, r *h
 	return GCFReturnStruct(geojsonline)
 }
 
+func AmbilDataGeojson(mongoenv, dbname, collname string) string {
+	mconn := SetConnection(mongoenv, dbname)
+	datagedung := GetAllBangunanLineString(mconn, collname)
+	return GCFReturnStruct(datagedung)
+}
+
 func MembuatGeojsonPoint(mongoenv, dbname, collname string, r *http.Request) string {
 	mconn := SetConnection(mongoenv, dbname)
 	var geojsonpoint GeoJsonPoint
@@ -286,4 +292,26 @@ func MembuatGeojsonPoint(mongoenv, dbname, collname string, r *http.Request) str
 	}
 	PostPoint(mconn, collname, geojsonpoint)
 	return GCFReturnStruct(geojsonpoint)
+}
+
+func MembuatGeojsonPolyline(mongoenv, dbname, collname string, r *http.Request) string {
+	mconn := SetConnection(mongoenv, dbname)
+	var geojsonline GeoJsonLineString
+	err := json.NewDecoder(r.Body).Decode(&geojsonline)
+	if err != nil {
+		return err.Error()
+	}
+	PostLinestring(mconn, collname, geojsonline)
+	return GCFReturnStruct(geojsonline)
+}
+
+func MembuatGeojsonPolygon(mongoenv, dbname, collname string, r *http.Request) string {
+	mconn := SetConnection(mongoenv, dbname)
+	var geojsonpolygon GeoJsonPolygon
+	err := json.NewDecoder(r.Body).Decode(&geojsonpolygon)
+	if err != nil {
+		return err.Error()
+	}
+	PostPolygon(mconn, collname, geojsonpolygon)
+	return GCFReturnStruct(geojsonpolygon)
 }

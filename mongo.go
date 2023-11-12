@@ -123,3 +123,21 @@ func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (inser
 func PostPoint(mongoconn *mongo.Database, collection string, pointdata GeoJsonPoint) interface{} {
 	return atdb.InsertOneDoc(mongoconn, collection, pointdata)
 }
+
+func PostLinestring(mongoconn *mongo.Database, collection string, linestringdata GeoJsonLineString) interface{} {
+	return atdb.InsertOneDoc(mongoconn, collection, linestringdata)
+}
+
+func PostPolygon(mongoconn *mongo.Database, collection string, polygondata GeoJsonPolygon) interface{} {
+	return atdb.InsertOneDoc(mongoconn, collection, polygondata)
+}
+
+func MemasukkanKoordinat(MongoConn *mongo.Database, colname string, coordinate []float64, name, volume, tipe string) (InsertedID interface{}) {
+	req := new(Coordinate)
+	req.Type = tipe
+	req.Coordinates = coordinate
+	req.Name = name
+
+	ins := atdb.InsertOneDoc(MongoConn, colname, req)
+	return ins
+}
