@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/aiteung/atdb"
 	"github.com/whatsauth/watoken"
@@ -278,22 +277,13 @@ func GCFCreatePostLineString(MONGOCONNSTRINGENV, dbname, collection string, r *h
 	return GCFReturnStruct(geojsonline)
 }
 
-func GCFPostCoordinate(Mongostring, dbname, colname string, r *http.Request) string {
-	req := new(Credents)
-	conn := GetConnectionMongo(Mongostring, dbname)
-	resp := new(LonLatProperties)
-	err := json.NewDecoder(r.Body).Decode(&resp)
+func MembuatGeojsonPoint(mongoenv, dbname, collname string, r *http.Request) string {
+	mconn := SetConnection(mongoenv, dbname)
+	var geojsonpoint GeoJsonPoint
+	err := json.NewDecoder(r.Body).Decode(&geojsonpoint)
 	if err != nil {
-		req.Status = strconv.Itoa(http.StatusNotFound)
-		req.Message = "error parsing application/json: " + err.Error()
-	} else {
-		req.Status = strconv.Itoa(http.StatusOK)
-		Ins := InsertDataLonlat(conn, colname,
-			resp.Coordinates,
-			resp.Name,
-			resp.Volume,
-			resp.Type)
-		req.Message = fmt.Sprintf("%v:%v", "Berhasil Input data", Ins)
+		return err.Error()
 	}
-	return ReturnStringStruct(req)
+	PostPoint(mconn, collname, geojsonpoint)
+	return ReturnStruct(geojsonpoint)
 }
