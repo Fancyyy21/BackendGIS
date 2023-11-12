@@ -285,5 +285,5 @@ func MembuatGeojsonPoint(mongoenv, dbname, collname string, r *http.Request) str
 		return err.Error()
 	}
 	PostPoint(mconn, collname, geojsonpoint)
-	return ReturnStruct(geojsonpoint)
+	return GCFReturnStruct(geojsonpoint)
 }
