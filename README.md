@@ -6,9 +6,9 @@ fancy
 go get -u all
 go mod tidy
 git tag                                 #check current version
-git tag v1.24                          #set tag version
+git tag v1.25                          #set tag version
 git push origin --tags                  #push tag version to repo
-go list -m https://github.com/Fancypedia/fancybackend@v1.24   #publish to pkg dev, replace ORG/URL with your repo URL
+go list -m https://github.com/Fancypedia/fancybackend@v1.25   #publish to pkg dev, replace ORG/URL with your repo URL
 ```
 
 ```sh
