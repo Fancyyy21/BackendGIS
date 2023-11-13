@@ -14,7 +14,11 @@ type GeometryPoint struct {
 	Coordinates []float64 `json:"coordinates" bson:"coordinates"`
 	Type        string    `json:"type" bson:"type"`
 }
-
+type GeoJsonPoint struct {
+	Type       string        `json:"type" bson:"type"`
+	Properties Properties    `json:"properties" bson:"properties"`
+	Geometry   GeometryPoint `json:"geometry" bson:"geometry"`
+}
 type GeoJsonLineString struct {
 	Type       string             `json:"type" bson:"type"`
 	Properties Properties         `json:"properties" bson:"properties"`
@@ -70,4 +74,10 @@ type Response struct {
 	Status  bool        `json:"status" bson:"status"`
 	Message string      `json:"message" bson:"message"`
 	Data    interface{} `json:"data" bson:"data"`
+}
+
+type Coordinate struct {
+	Type        string    `json:"type" bson:"type"`
+	Name        string    `json:"name" bson:"name"`
+	Coordinates []float64 `json:"coordinates" bson:"coordinates"`
 }
