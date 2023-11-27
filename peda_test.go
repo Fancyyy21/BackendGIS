@@ -216,7 +216,7 @@ func TestIsPasswordValid(t *testing.T) {
 // --------------------------------------------------------------------- START GIS 9 ---------------------------------------------------------------------
 
 func TestUpdateGetData(t *testing.T) {
-	mconn := SetConnection("mongodb+srv://Fancy21:Acermaulana21@maulana.uiq9nmy.mongodb.net/?retryWrites=true&w=majority", "gis")
+	mconn := SetConnectionTest("mongodb+srv://Fancy21:Acermaulana21@maulana.uiq9nmy.mongodb.net/?retryWrites=true&w=majority", "gis")
 	datagedung := GeoIntersects(mconn, 108.22501803948785, -6.835460702759789)
 	fmt.Println(datagedung)
 }
