@@ -176,7 +176,7 @@ func PostStructWithToken[T any](tokenkey string, tokenvalue string, structname i
 // --------------------------------------------------------------------- START GIS 9 ---------------------------------------------------------------------
 
 func GeoIntersects(mongoconn *mongo.Database, long float64, lat float64) (namalokasi string) {
-	lokasicollection := mongoconn.Collection("geojson")
+	lokasicollection := mongoconn.Collection("gis")
 	filter := bson.M{
 		"geometry": bson.M{
 			"$geoIntersects": bson.M{
