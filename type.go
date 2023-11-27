@@ -1,5 +1,7 @@
 package peda
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 type GeometryPolygon struct {
 	Coordinates [][][]float64 `json:"coordinates" bson:"coordinates"`
 	Type        string        `json:"type" bson:"type"`
@@ -89,4 +91,27 @@ type Token struct {
 
 type PostToken struct {
 	Response string `json:"response"`
+}
+
+// --------------------------------------------------------------------- START GIS 9 ---------------------------------------------------------------------
+
+type Lokasi struct { //lokasi yang bisa melakukan presensi
+	ID         primitive.ObjectID `bson:"_id,omitempty"`
+	Properties Name               `bson:"properties,omitempty"`
+	Geometry   Geometry           `bson:"geometry,omitempty"`
+	Kategori   string             `bson:"kategori,omitempty"`
+}
+
+type Name struct { //lokasi yang bisa melakukan presensi
+	Name string `bson:"name,omitempty"`
+}
+
+type LongLat struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}
+
+type Pesan struct {
+	Status  bool   `json:"status" bson:"status"`
+	Message string `json:"message" bson:"message"`
 }

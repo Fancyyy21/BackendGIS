@@ -11,6 +11,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+func ReturnStruct(DataStuct any) string {
+	jsondata, _ := json.Marshal(DataStuct)
+	return string(jsondata)
+}
+
 func GCFHandler(MONGOCONNSTRINGENV, dbname, collectionname string) string {
 	mconn := SetConnection(MONGOCONNSTRINGENV, dbname)
 	datagedung := GetAllUser(mconn, collectionname)
@@ -387,4 +392,22 @@ func MembuatGeojsonPolygon(mongoenv, dbname, collname string, r *http.Request) s
 	}
 	PostPolygon(mconn, collname, geojsonpolygon)
 	return GCFReturnStruct(geojsonpolygon)
+}
+
+// --------------------------------------------------------------------- START GIS 9 ---------------------------------------------------------------------
+
+func PostGeoIntersects(mongoenv, dbname string, r *http.Request) string {
+	var longlat LongLat
+	var response Pesan
+	response.Status = false
+	mconn := SetConnection(mongoenv, dbname)
+
+	err := json.NewDecoder(r.Body).Decode(&longlat)
+	if err != nil {
+		response.Message = "error parsing application/json: " + err.Error()
+	} else {
+		response.Status = true
+		response.Message = GeoIntersects(mconn, longlat.Longitude, longlat.Latitude)
+	}
+	return ReturnStruct(response)
 }

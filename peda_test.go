@@ -13,12 +13,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func TestUpdateGetData(t *testing.T) {
-	mconn := SetConnection("MONGOULBI", "petapedia")
-	datagedung := GetAllUser(mconn, "user")
-	fmt.Println(datagedung)
-}
-
 // }
 // func TestGCFCreateHandler(t *testing.T) {
 // 	// Simulate input parameters
@@ -217,4 +211,12 @@ func TestIsPasswordValid(t *testing.T) {
 
 	anu := IsPasswordValid(mconn, "user", userdata)
 	fmt.Println(anu)
+}
+
+// --------------------------------------------------------------------- START GIS 9 ---------------------------------------------------------------------
+
+func TestUpdateGetData(t *testing.T) {
+	mconn := SetConnection("mongodb+srv://Fancy21:Acermaulana21@maulana.uiq9nmy.mongodb.net/?retryWrites=true&w=majority", "gis")
+	datagedung := GeoIntersects(mconn, 108.22501803948785, -6.835460702759789)
+	fmt.Println(datagedung)
 }

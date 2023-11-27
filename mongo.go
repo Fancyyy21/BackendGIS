@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"os"
 
@@ -16,14 +17,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func SetConnection(MONGOCONNSTRINGENV, dbname string) *mongo.Database {
+func SetConnection(mongoenv, dbname string) *mongo.Database {
 	var DBmongoinfo = atdb.DBInfo{
-		DBString: os.Getenv(MONGOCONNSTRINGENV),
+		DBString: os.Getenv(mongoenv),
 		DBName:   dbname,
 	}
 	return atdb.MongoConnect(DBmongoinfo)
 }
-
 func GetAllBangunanLineString(mongoconn *mongo.Database, collection string) []GeoJson {
 	lokasi := atdb.GetAllDoc[[]GeoJson](mongoconn, collection)
 	return lokasi
@@ -171,4 +171,27 @@ func PostStructWithToken[T any](tokenkey string, tokenvalue string, structname i
 		errormessage = string(respBody) + "Error Unmarshal from Response : " + er.Error()
 	}
 	return
+}
+
+// --------------------------------------------------------------------- START GIS 9 ---------------------------------------------------------------------
+
+func GeoIntersects(mongoconn *mongo.Database, long float64, lat float64) (namalokasi string) {
+	lokasicollection := mongoconn.Collection("geojson")
+	filter := bson.M{
+		"geometry": bson.M{
+			"$geoIntersects": bson.M{
+				"$geometry": bson.M{
+					"type":        "Point",
+					"coordinates": []float64{long, lat},
+				},
+			},
+		},
+	}
+	var lokasi Lokasi
+	err := lokasicollection.FindOne(context.TODO(), filter).Decode(&lokasi)
+	if err != nil {
+		log.Printf("GeoIntersects: %v\n", err)
+	}
+	return lokasi.Properties.Name
+
 }
